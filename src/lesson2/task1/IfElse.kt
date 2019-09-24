@@ -5,8 +5,10 @@ package lesson2.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 import kotlin.math.abs
+
 /**
  * Пример
  *
@@ -64,10 +66,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    return if (age in 5..20 || age in 105..120) "$age лет" else
-        if (age % 10 == 1) "$age год" else
-            if (age % 10 == 2 || age % 10 == 3 || age % 10 == 4) "$age года" else "$age лет"
+fun ageDescription(age: Int): String = when {
+    (age in 5..20 || age in 105..120) -> "$age лет"
+    (age % 10 == 1) -> "$age год"
+    (age % 10 == 2 || age % 10 == 3 || age % 10 == 4) -> "$age года"
+    else -> "$age лет"
 }
 
 // * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
@@ -101,9 +104,12 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    return if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) 3 else
-        if (kingX == rookX1 || kingY == rookY1) 1 else
-            if (kingX == rookX2 || kingY == rookY2) 2 else 0
+    return when {
+        ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 3
+        (kingX == rookX1 || kingY == rookY1) -> 1
+        (kingX == rookX2 || kingY == rookY2) -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -137,13 +143,11 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int {
-    return when {
-        a + b < c || a + c < b || c + b < a -> -1
-        sqr(a) + sqr(b) == sqr(c) || sqr(a) + sqr(c) == sqr(b) || sqr(b) + sqr(c) == sqr(a) -> 1
-        sqr(a) + sqr(b) < sqr(c) || sqr(a) + sqr(c) < sqr(b) || sqr(c) + sqr(b) < sqr(a) -> 2
-        else -> 0
-    }
+fun triangleKind(a: Double, b: Double, c: Double): Int = when {
+    a + b < c || a + c < b || c + b < a -> -1
+    sqr(a) + sqr(b) == sqr(c) || sqr(a) + sqr(c) == sqr(b) || sqr(b) + sqr(c) == sqr(a) -> 1
+    sqr(a) + sqr(b) < sqr(c) || sqr(a) + sqr(c) < sqr(b) || sqr(c) + sqr(b) < sqr(a) -> 2
+    else -> 0
 }
 /**
  * Средняя
@@ -155,11 +159,19 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-        (a <= c) && (c < b) && (b <= d) -> b - c
-        (c <= a) && (a < d) && (d <= b) -> d - a
-        (c <= a) && (b <= d) -> b - a
-        (c >= a) && (b >= d) -> d - c
+        min(a, c) == a && min(c ,b) == c && min(b, d) == b -> b - c
+        min(c, a) == c && min(c, d) == a && min(d, b) == d -> d - a
+        min(a, c) == c && min(b, d) == b -> b - a
+        max(a, c) == c && max(b, d) == b -> d - c
         (a == d) || (b == c) -> 0
         else -> -1
     }
 }
+//return when {
+//        (a <= c) && (c < b) && (b <= d) -> b - c
+//        (c <= a) && (a < d) && (d <= b) -> d - a
+//        (c <= a) && (b <= d) -> b - a
+//        (c >= a) && (b >= d) -> d - c
+//        (a == d) || (b == c) -> 0
+//        else -> -1
+//    }
