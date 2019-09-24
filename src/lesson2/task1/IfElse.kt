@@ -160,7 +160,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = when {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
         min(a, c) == a && min(c ,b) == c && min(b, d) == b -> b - c
-        min(c, a) == c && min(c, d) == a && min(d, b) == d -> d - a
+        min(c, a) == c && min(c, b) == c && min(d, b) == d && min(a, d) == a -> d - a
         min(a, c) == c && min(b, d) == b -> b - a
         max(a, c) == c && max(b, d) == b -> d - c
         (a == d) || (b == c) -> 0
