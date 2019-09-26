@@ -103,14 +103,13 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int {
-    return when {
+): Int =
+    when {
         ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 3
         (kingX == rookX1 || kingY == rookY1) -> 1
         (kingX == rookX2 || kingY == rookY2) -> 2
         else -> 0
     }
-}
 
 /**
  * Простая
@@ -126,13 +125,11 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int {
-    return when {
-        (kingX != rookX) && (kingY != rookY) && abs(bishopX - kingX) != abs(bishopY - kingY) -> 0
-        ((kingX == rookX) || (kingY == rookY)) && (abs(bishopX - kingX) != abs(bishopY - kingY)) -> 1
-        (kingX != rookX) && (kingY != rookY) && (abs(bishopX - kingX) == abs(bishopY - kingY)) -> 2
-        else -> 3
-    }
+): Int = when {
+    (kingX != rookX) && (kingY != rookY) && abs(bishopX - kingX) != abs(bishopY - kingY) -> 0
+    ((kingX == rookX) || (kingY == rookY)) && (abs(bishopX - kingX) != abs(bishopY - kingY)) -> 1
+    (kingX != rookX) && (kingY != rookY) && (abs(bishopX - kingX) == abs(bishopY - kingY)) -> 2
+    else -> 3
 }
 
 /**
@@ -149,6 +146,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = when {
     sqr(a) + sqr(b) < sqr(c) || sqr(a) + sqr(c) < sqr(b) || sqr(c) + sqr(b) < sqr(a) -> 2
     else -> 0
 }
+
 /**
  * Средняя
  *
@@ -158,20 +156,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = when {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        min(a, c) == a && min(c ,b) == c && min(b, d) == b -> b - c
-        min(c, a) == c && min(c, b) == c && min(d, b) == d && min(a, d) == a -> d - a
-        min(a, c) == c && min(b, d) == b -> b - a
-        max(a, c) == c && max(b, d) == b -> d - c
-        (a == d) || (b == c) -> 0
-        else -> -1
-    }
+    return if (min(b, d) - max(a, c) < 0) -1
+    else (min(b, d) - max(a, c))
 }
-//return when {
-//        (a <= c) && (c < b) && (b <= d) -> b - c
-//        (c <= a) && (a < d) && (d <= b) -> d - a
-//        (c <= a) && (b <= d) -> b - a
-//        (c >= a) && (b >= d) -> d - c
-//        (a == d) || (b == c) -> 0
-//        else -> -1
-//    }
