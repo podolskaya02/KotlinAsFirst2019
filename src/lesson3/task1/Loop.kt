@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -107,8 +108,8 @@ fun lcm(m: Int, n: Int): Int {
     var a = 0
     var k = 0
     while (number1 != number2) {
-        if (number1 > number2) number1 -= number2 else
-            if (number2 > number1) number2 -= number1
+        if (number1 > number2) number1 -= number2
+        else number2 -= number1
     }
     k = m * n / number1
     return k
@@ -135,10 +136,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var a = minDivisor(n)
-    return n / a
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -208,6 +206,7 @@ fun collatzSteps(x: Int): Int {
  */
 fun sin(x: Double, eps: Double): Double = TODO()
 
+
 /**
  * Средняя
  *
@@ -229,7 +228,6 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var number = n
     var number2 = 0
-    if (number < 10) return number
     do {
         number2 = number % 10 + number2 * 10
         number /= 10
