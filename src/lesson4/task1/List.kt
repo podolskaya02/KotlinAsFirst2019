@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.abs
+import lesson3.task1.isPrime
 import kotlin.math.sqrt
 import kotlin.math.pow
 
@@ -141,6 +141,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     }
     return list
 }
+
 /**
  * Средняя
  *
@@ -148,17 +149,14 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int =
-    if (a.isEmpty()) 0
-    else {
-        var c = 0
-        for (i in 0 until a.size) {
-            val multi = a[i] * b[i]
-            c += multi
-        }
-        c
+fun times(a: List<Int>, b: List<Int>): Int {
+    var c = 0
+    for (i in 0 until a.size) {
+        val multi = a[i] * b[i]
+        c += multi
     }
-
+    return c
+}
 
 /**
  * Средняя
@@ -172,10 +170,9 @@ fun polynom(p: List<Int>, x: Int): Int {
     val number = x.toDouble()
     return if (p.isEmpty()) 0
     else {
-        var result = 0
-        var a = 0
-        result = p[0]
+        var result = p[0]
         for (i in 1 until p.size) {
+            var a = 0
             a = p[i] * number.pow(i).toInt()
             result += a
         }
@@ -195,15 +192,14 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.isNotEmpty()) {
-        var sum = 0
-        for (i in 0 until list.size) {
-            sum += list[i]
-            list[i] = sum
-        }
+    var sum = 0
+    for (i in 0 until list.size) {
+        sum += list[i]
+        list[i] = sum
     }
     return list
 }
+
 /**
  * Средняя
  *
@@ -212,19 +208,19 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var list = listOf<Int>()
-    var resultList = listOf<Int>()
+    var resultList = mutableListOf<Int>()
     var number = n
     while (number != 1) {
-        for (i in 2..number) {
+        loop@ for (i in 2..number) {
             if (number % i == 0) {
                 number /= i
-                list = listOf(i)
-                resultList = list + resultList
+                resultList.add(i)
+                if (!isPrime(number)) break@loop
             }
+
         }
     }
-    return resultList.sorted()
+    return resultList
 }
 
 /**
@@ -234,7 +230,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = listOf(factorize(n)).joinToString(separator = " * ")
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -243,23 +239,19 @@ fun factorizeToString(n: Int): String = listOf(factorize(n)).joinToString(separa
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> {
-    return if (n < base) listOf(n)
+fun convert(n: Int, base: Int): List<Int> =
+    if (n < base) listOf(n)
     else {
-        var resultList = listOf<Int>()
+        var resultList = mutableListOf<Int>()
         var remainder = 0
-        var oldNumber = 0
         var number = n
         while (number >= 1) {
             remainder = number % base
-            oldNumber = number
             number /= base
-            if (number % base != 0) remainder = oldNumber - (base * number)
-            resultList = listOf(remainder) + resultList
+            resultList = (listOf(remainder) + resultList) as MutableList<Int>
         }
         resultList
     }
-}
 
 
 /**
@@ -282,7 +274,16 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var list = digits.reversed()
+    var result = 0
+    var a = 0
+    for (i in 0 until list.size) {
+        a = list[i] * base.toDouble().pow(i).toInt()
+        result += a
+    }
+    return result
+}
 
 /**
  * Сложная
