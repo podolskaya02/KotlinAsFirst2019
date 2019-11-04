@@ -104,8 +104,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    for ((value) in b) {
-        if (a[value].equals(b[value])) return true
+    for ((key, value) in a) {
+        if (value == b[key]) return true
+        else break
     }
     return false
 }
@@ -126,9 +127,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
     for ((key, value) in b) {
-        if (a[key].equals(b[key]) && a[value].equals(b[value])) {
-            a.remove(key, value)
-        }
+        if ((a.containsKey(key) && (a[key] == value))) a.remove(key)
     }
 }
 
@@ -198,7 +197,14 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    for (i in word.toCharArray()) {
+        if (i in chars) continue
+        else return false
+    }
+    return true
+}
+
 
 /**
  * Средняя
@@ -214,6 +220,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  */
 fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
 
+
 /**
  * Средняя
  *
@@ -223,7 +230,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    for (i in 0 until words.size - 1) {
+        val list = words[i].toCharArray().toList()
+        for (j in 1 until words.size)
+            if ((canBuildFrom(list, words[j])) && (words[i] != words[j])) return true
+    }
+    return false
+}
 
 /**
  * Сложная
