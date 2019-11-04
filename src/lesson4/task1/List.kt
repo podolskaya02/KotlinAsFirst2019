@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.isPrime
 import kotlin.math.sqrt
 import kotlin.math.pow
 
@@ -172,9 +171,7 @@ fun polynom(p: List<Int>, x: Int): Int {
     else {
         var result = p[0]
         for (i in 1 until p.size) {
-            var a = 0
-            a = p[i] * number.pow(i).toInt()
-            result += a
+            result += p[i] * number.pow(i).toInt()
         }
         result
     }
@@ -208,15 +205,13 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var resultList = mutableListOf<Int>()
+    val resultList = mutableListOf<Int>()
     var number = n
-    while (number != 1) {
-        loop@ for (i in 2..number) {
-            if (number % i == 0) {
-                number /= i
-                resultList.add(i)
-                if (!isPrime(number)) break@loop
-            }
+    for (i in 2..number) {
+        while (number % i == 0) {
+            number /= i
+            resultList.add(i)
+            if (number == 1) break
 
         }
     }
@@ -242,15 +237,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> =
     if (n < base) listOf(n)
     else {
-        var resultList = mutableListOf<Int>()
+        val resultList = mutableListOf<Int>()
         var remainder = 0
         var number = n
         while (number >= 1) {
             remainder = number % base
             number /= base
-            resultList = (listOf(remainder) + resultList) as MutableList<Int>
+            resultList.add(remainder)
         }
-        resultList
+        resultList.reversed()
     }
 
 
@@ -275,11 +270,10 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var list = digits.reversed()
     var result = 0
     var a = 0
-    for (i in 0 until list.size) {
-        a = list[i] * base.toDouble().pow(i).toInt()
+    for (i in 0 until digits.size) {
+        a = digits[i] * base.toDouble().pow(digits.size - 1 - i).toInt()
         result += a
     }
     return result
