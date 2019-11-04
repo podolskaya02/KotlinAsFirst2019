@@ -106,8 +106,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     if (a.isEmpty() && b.isEmpty()) return true
     for ((key, value) in a) {
-        if (value == b[key]) return true
-        else break
+        while (value == b[key]) return true
     }
     return false
 }
@@ -199,8 +198,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    for (i in word.toLowerCase().toCharArray()) {
-        if (i in chars) continue
+    for (i in word.toLowerCase().toSet()) {
+        if (i in chars.toString().toLowerCase().toList())
         else return false
     }
     return true
@@ -219,7 +218,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it }.eachCount().filter { it.value > 1 }
 
 
 /**
@@ -233,9 +232,9 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  */
 fun hasAnagrams(words: List<String>): Boolean {
     for (i in 0 until words.size - 1) {
-        val list = words[i].toCharArray().toList()
+        val list = words[i].toList()
         for (j in 1 until words.size)
-            if ((canBuildFrom(list, words[j])) && (words[i] != words[j])) return true
+            if ((canBuildFrom(list, words[j])) && (i != j)) return true
     }
     return false
 }
