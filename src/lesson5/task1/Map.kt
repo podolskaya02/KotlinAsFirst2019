@@ -104,11 +104,11 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    if (a.isEmpty() && b.isEmpty()) return true
-    for ((key, value) in a) {
-        while (value == b[key]) return true
+    return when {
+        (a.isEmpty() && b.isEmpty()) -> true
+        (a.toList().intersect(b.toList()).size == a.size) -> true
+        else -> false
     }
-    return false
 }
 
 /**
@@ -159,6 +159,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
 
+
 /**
  * Средняя
  *
@@ -198,7 +199,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    for (i in word.toLowerCase().toSet()) {
+    for (i in word.toLowerCase()) {
         if (i in chars.toString().toLowerCase().toList())
         else return false
     }
@@ -234,7 +235,11 @@ fun hasAnagrams(words: List<String>): Boolean {
     for (i in 0 until words.size - 1) {
         val list = words[i].toList()
         for (j in 1 until words.size)
-            if ((canBuildFrom(list, words[j])) && (i != j)) return true
+            if (canBuildFrom(list, words[j]) && (canBuildFrom(
+                    words[j].toCharArray().toList(),
+                    list.toString()
+                )) &&(list.size == words[j].toList().size) && (i != j)
+            ) return true
     }
     return false
 }
