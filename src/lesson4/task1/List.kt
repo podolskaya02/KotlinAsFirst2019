@@ -211,8 +211,10 @@ fun factorize(n: Int): List<Int> {
         while (number % i == 0) {
             number /= i
             resultList.add(i)
-            if (number == 1) break
-
+            if (number == i) {
+                resultList.add(i)
+                break
+            }
         }
     }
     return resultList
