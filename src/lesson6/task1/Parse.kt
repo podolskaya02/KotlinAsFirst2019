@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -69,7 +71,23 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    var res = 0
+    val part = str.split(" ")
+    if (part.size != 3) return ""
+    val month = listOf(
+        "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    if (part[1] !in month) return ""
+    for (i in 0 until month.size) {
+        if (part[1] == month[i]) {
+            res = i + 1
+        }
+    }
+    if ((daysInMonth(res, part[2].toInt()) <= part[0].toInt())) return ""
+    return "${twoDigitStr(part[0].toInt())}.${twoDigitStr(res)}.${part[2]}"
+}
 
 /**
  * Средняя
@@ -81,7 +99,26 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var res = ""
+    val part = digital.split(".")
+    if (part.size != 3) return ""
+    //пока не придумала, как проверить, что в part именно цифры, а не буквы
+    //assertEquals("", dateDigitToStr("ab.cd.ef"))
+    if (daysInMonth(part[1].toInt(), part[2].toInt()) <= part[0].toInt()) return ""
+    val month = listOf(
+        "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    if ((part[1].toInt() > 0) && (part[1].toInt() <= 12)) {
+        for (i in 0 until month.size) {
+            if (part[1].toInt() == i + 1) {
+                res = month[i]
+            }
+        }
+    } else return ""
+    return "${part[0].toInt()} $res ${part[2]}"
+}
 
 /**
  * Средняя

@@ -105,7 +105,6 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     return when {
-        (a.isEmpty() && b.isEmpty()) -> true
         (a.toList().intersect(b.toList()).size == a.size) -> true
         else -> false
     }
@@ -126,7 +125,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
-    for ((key, value) in b) if ((a.containsKey(key) && (a[key] == value))) a.remove(key)
+    for ((key, value) in b) {
+        if (a[key] == value) a.remove(key)
+    }
 }
 
 /**
@@ -197,8 +198,11 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val str = chars.toString().toLowerCase().removeSurrounding("[", "]")
+    //не знаю, как другим образом исправить вид [] для chars (ведь мне нужен toString, чтобы сделать toLowerCase)
     for (i in word.toLowerCase()) {
-        if (i !in chars.toString().toLowerCase().toSet()) return false
+        if (i in str)
+        else return false
     }
     return true
 }
@@ -216,7 +220,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it }.eachCount().filter { it.value > 1 }
+fun extractRepeats(list: List<String>): Map<String, Int> =
+    list.groupingBy { it }.eachCount().filter { it.value > 1 }
 
 
 /**
@@ -230,13 +235,8 @@ fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it 
  */
 fun hasAnagrams(words: List<String>): Boolean {
     for (i in 0 until words.size - 1) {
-        val list = words[i].toList()
         for (j in 1 until words.size)
-            if (canBuildFrom(list, words[j]) && (canBuildFrom(
-                    words[j].toCharArray().toList(),
-                    list.toString()
-                )) &&(list.size == words[j].toList().size) && (i != j)
-            ) return true
+            if ((words[i].toList().sortedBy { it } == words[j].toList().sortedBy { it }) && (i != j)) return true
     }
     return false
 }
