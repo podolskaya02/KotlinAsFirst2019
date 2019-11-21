@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.util.*
+
 /**
  * Пример
  *
@@ -103,12 +105,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    return when {
-        (a.toList().intersect(b.toList()).size == a.size) -> true
-        else -> false
-    }
-}
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean =
+    a.toList().intersect(b.toList()).size == a.size
 
 /**
  * Простая
@@ -198,8 +196,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val str = chars.toString().toLowerCase().removeSurrounding("[", "]")
-    //не знаю, как другим образом исправить вид [] для chars (ведь мне нужен toString, чтобы сделать toLowerCase)
+    val str = chars.map { it.toLowerCase() }
     for (i in word.toLowerCase()) {
         if (i in str)
         else return false
