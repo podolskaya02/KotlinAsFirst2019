@@ -97,11 +97,14 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     var res = ""
     val part = digital.split(".")
-    if (part.size != 3 || part[0].toIntOrNull() == null || part[2].toIntOrNull() == null || part[1].toInt() < 1) return ""
+    if (part.size != 3 || part[0].toIntOrNull() == null || part[1].toIntOrNull() == null ||
+        part[2].toIntOrNull() == null
+    ) return ""
     val day = part[0].toInt()
     val month = part[1].toInt()
     val year = part[2].toInt()
-    if ((day > daysInMonth(month, year) || (day < 1))) return ""
+    if (day < 1 || month < 1 || month > 12 || year < 1) return ""
+    if ((day > daysInMonth(month, year))) return ""
     if (allMonth().contains(part[1])) return ""
     else {
         res = allMonth()[month - 1]
@@ -176,8 +179,9 @@ fun firstDuplicateIndex(str: String): Int {
     val words = str.split(" ").toMutableList()
     if (words.size == 1) return -1
     for (i in 0 until words.size - 1) {
-        if (words[i].toLowerCase() == words[i + 1].toLowerCase())
-            res = str.indexOf(words[i] + " " + words[i + 1])
+        if (words[i].toLowerCase() == words[i + 1].toLowerCase()) {
+            if (res == -1) res = str.indexOf(words[i] + " " + words[i + 1])
+        }
     }
     return res
 }
