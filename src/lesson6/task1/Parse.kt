@@ -103,7 +103,7 @@ fun dateDigitToStr(digital: String): String {
     val day = part[0].toInt()
     val month = part[1].toInt()
     val year = part[2].toInt()
-    if (day < 1 || month < 1 || month > 12 || year < 1) return ""
+    if (day < 1 || month < 1 || month > 12 || year < 0) return ""
     if ((day > daysInMonth(month, year))) return ""
     if (allMonth().contains(part[1])) return ""
     else {
