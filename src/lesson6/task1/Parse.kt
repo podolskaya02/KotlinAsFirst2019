@@ -73,16 +73,16 @@ fun main() {
  */
 
 fun dateStrToDigit(str: String): String {
-    var res = 0
+    var result = 0
     val part = str.split(" ")
     if (part.size != 3) return ""
-    res = allMonth().indexOf(part[1]) + 1
-    if (res == 0) return ""
+    result = allMonth().indexOf(part[1]) + 1
+    if (result == 0) return ""
     val day = part[0].toIntOrNull()
     val year = part[2].toIntOrNull()
     if (day == null || year == null) return ""
-    if ((daysInMonth(res, year) < day) || day < 1) return ""
-    return "${twoDigitStr(day)}.${twoDigitStr(res)}.$year"
+    if ((daysInMonth(result, year) < day) || day < 1) return ""
+    return "${twoDigitStr(day)}.${twoDigitStr(result)}.$year"
 }
 
 
@@ -97,7 +97,7 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    var res = ""
+    var result = ""
     val part = digital.split(".")
     val day = part[0].toIntOrNull()
     val month = part[1].toIntOrNull()
@@ -106,9 +106,9 @@ fun dateDigitToStr(digital: String): String {
         year == null || day < 1 || month < 1 || month > 12 || year < 0
     ) return ""
     if ((day > daysInMonth(month, year))) return ""
-    res = allMonth()[month - 1]
+    result = allMonth()[month - 1]
 
-    return "$day $res $year"
+    return "$day $result $year"
 }
 
 /**
@@ -173,15 +173,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var res = -1
+    var result = -1
     val words = str.split(" ")
     if (words.size == 1) return -1
     for (i in 0 until words.size - 1) {
         if (words[i].toLowerCase() == words[i + 1].toLowerCase()) {
-            if (res == -1) return str.indexOf(words[i] + " " + words[i + 1])
+            if (result == -1) return str.indexOf(words[i] + " " + words[i + 1])
         }
     }
-    return res
+    return result
 }
 
 /**
