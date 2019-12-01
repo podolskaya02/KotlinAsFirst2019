@@ -121,7 +121,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.entr
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, value) in b) {
         if (a[key] == value) a.remove(key)
     }
@@ -195,7 +195,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val string = chars.toSet().map { it.toLowerCase() }
+    val string = chars.map { it.toLowerCase() }.toSet()
     for (i in word.toLowerCase()) {
         if (i !in string) return false
     }
@@ -230,8 +230,9 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
  */
 fun hasAnagrams(words: List<String>): Boolean {
     for (i in 0 until words.size - 1) {
-        for (j in 1 until words.size)
-            if ((words[i].toList().sortedBy { it } == words[j].toList().sortedBy { it }) && (i != j)) return true
+        for (j in i + 1 until words.size) {
+            if (words[i].toList().sorted() == words[j].toList().sorted()) return true
+        }
     }
     return false
 }

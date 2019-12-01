@@ -70,7 +70,9 @@ fun main() {
  *
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
+ *
  */
+
 
 fun dateStrToDigit(str: String): String {
     var result = 0
@@ -99,10 +101,11 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     var result = ""
     val part = digital.split(".")
+    if (part.size != 3) return ""
     val day = part[0].toIntOrNull()
     val month = part[1].toIntOrNull()
     val year = part[2].toIntOrNull()
-    if (part.size != 3 || day == null || month == null ||
+    if (day == null || month == null ||
         year == null || day < 1 || month < 1 || month > 12 || year < 0
     ) return ""
     if ((day > daysInMonth(month, year))) return ""
@@ -173,15 +176,14 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var result = -1
     val words = str.split(" ")
     if (words.size == 1) return -1
     for (i in 0 until words.size - 1) {
         if (words[i].toLowerCase() == words[i + 1].toLowerCase()) {
-            if (result == -1) return str.indexOf(words[i] + " " + words[i + 1])
+            return str.indexOf(words[i] + " " + words[i + 1])
         }
     }
-    return result
+    return -1
 }
 
 /**
@@ -247,7 +249,6 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
-
 fun allMonth(): List<String> {
     return listOf(
         "января", "февраля", "марта", "апреля", "мая", "июня",
