@@ -72,7 +72,25 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val consonant = "Ж ж Ч ч Ш ш Щ щ"
+    val writeLetters = "И и А а У у"
+    val wrongLetters = "Ы ы Я я Ю ю"
+    val writer = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()) {
+        var newLine = line
+        for (i in 0 until line.length - 1) {
+            if (line[i] in consonant && line[i].toString() != " " &&
+                line[i + 1] in wrongLetters && line[i + 1].toString() != " "
+            ) {
+                val index = wrongLetters.indexOf(line[i + 1])
+                newLine = line.replace(line[i + 1], writeLetters[index])
+                // не могу понять, почему замена происходит не совсем корректно ("некоторый "заменяется на "некоторий")
+            }
+        }
+        writer.write(newLine)
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
@@ -93,7 +111,22 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var lenght = 0
+    File(outputName).bufferedWriter().use {
+        for (line in File(inputName).readLines()) {
+            if (line.trim().length > lenght) lenght = line.trim().length
+        }
+        for (line in File(inputName).readLines()) {
+            var newLines = line.trim()
+            if (newLines.trim().length < lenght) {
+                for (i in 0 until (lenght - newLines.length) / 2) {
+                    newLines = " $newLines"
+                }
+            }
+            it.write(newLines)
+            it.newLine()
+        }
+    }
 }
 
 /**
@@ -211,24 +244,19 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    val resultList = mutableListOf<String>()
-    var res = 1
-    var lenght = 0
-    val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        if (line.count() >= lenght) {
-            lenght = line.count()
-            val counter = line.toLowerCase().groupingBy { it }.eachCount()
-            for ((key) in counter) {
-                if (counter[key] ?: error("") > 1) res = 0
+    File(outputName).bufferedWriter().use { writer ->
+        val resultList = mutableListOf<String>()
+        var lenght = 0
+        for (line in File(inputName).readLines()) {
+            if (line.toLowerCase().toSet().count() == line.count()) resultList.add(line)
+            if (line.count() >= lenght) {
+                lenght = line.count()
             }
-            if (res == 1) resultList.add(line)
         }
+        resultList.removeIf { it.count() < lenght }
+        val str = resultList.joinToString(separator = ", ")
+        writer.write(str)
     }
-    resultList.removeIf { it.count() < lenght }
-    val str = resultList.joinToString(separator = ", ")
-    writer.write(str)
-    writer.close()
 }
 
 /**
