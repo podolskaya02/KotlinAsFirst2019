@@ -248,10 +248,11 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         val resultList = mutableListOf<String>()
         var lenght = 0
         for (line in File(inputName).readLines()) {
-            if (line.toLowerCase().toSet().count() == line.count()) resultList.add(line)
-            if (line.count() >= lenght) {
+            if (line.toLowerCase().toSet().count() == line.count() && line.count() >= lenght) {
+                resultList.add(line)
                 lenght = line.count()
             }
+
         }
         resultList.removeIf { it.count() < lenght }
         val str = resultList.joinToString(separator = ", ")
@@ -476,4 +477,5 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+
 
