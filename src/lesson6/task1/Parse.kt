@@ -72,13 +72,16 @@ fun main() {
  * входными данными.
  *
  */
-
+var allMonth = listOf(
+    "января", "февраля", "марта", "апреля", "мая", "июня",
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"
+)
 
 fun dateStrToDigit(str: String): String {
     var result = 0
     val part = str.split(" ")
     if (part.size != 3) return ""
-    result = allMonth().indexOf(part[1]) + 1
+    result = allMonth.indexOf(part[1]) + 1
     if (result == 0) return ""
     val day = part[0].toIntOrNull()
     val year = part[2].toIntOrNull()
@@ -109,7 +112,7 @@ fun dateDigitToStr(digital: String): String {
         year == null || day < 1 || month < 1 || month > 12 || year < 0
     ) return ""
     if ((day > daysInMonth(month, year))) return ""
-    result = allMonth()[month - 1]
+    result = allMonth[month - 1]
 
     return "$day $result $year"
 }
@@ -249,9 +252,4 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
-fun allMonth(): List<String> {
-    return listOf(
-        "января", "февраля", "марта", "апреля", "мая", "июня",
-        "июля", "августа", "сентября", "октября", "ноября", "декабря"
-    )
-}
+
