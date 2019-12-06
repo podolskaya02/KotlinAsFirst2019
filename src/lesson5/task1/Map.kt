@@ -155,14 +155,15 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val res = mutableMapOf<String, String>()
+    if (mapA.isEmpty()) res.putAll(mapB)
+    if (mapB.isEmpty()) res.putAll(mapA)
     for ((keyA, valueA) in mapA) {
         for ((keyB, valueB) in mapB) {
             if ((keyA == keyB)) {
                 val values = listOf(valueA, valueB).distinct().joinToString(separator = ", ")
                 res[keyA] = values
 
-            }
-            if (keyA != keyB) {
+            } else if (keyA != keyB) {
                 if (!res.containsKey(keyA)) res[keyA] = valueA
                 if (!res.containsKey(keyB)) res[keyB] = valueB
             }
@@ -247,7 +248,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
 fun hasAnagrams(words: List<String>): Boolean {
     for (i in 0 until words.size - 1) {
         for (j in i + 1 until words.size) {
-            if (words[i].toList().sorted() == words[j].toList().sorted() ) return true
+            if (words[i].toList().sorted() == words[j].toList().sorted()) return true
         }
     }
     return false
