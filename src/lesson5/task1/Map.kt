@@ -123,7 +123,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.entr
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, value) in b) {
-        if (a[key] == value) a.remove(key)
+        a.remove(key, value)
     }
 }
 
@@ -297,7 +297,15 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val map = mutableMapOf<Int, Int>()
+    for ((ourIndex, digit) in list.withIndex()) {
+        val firstIndex = map[number - digit]
+        if (firstIndex != null) return firstIndex to ourIndex
+        if (map[digit] == null) map[digit] = ourIndex else map[digit]
+    }
+    return -1 to -1
+}
 
 /**
  * Очень сложная
