@@ -123,6 +123,8 @@ class Tests {
     fun containsIn() {
         assertTrue(containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")))
         assertFalse(containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")))
+        assertTrue(containsIn(mapOf("a" to "z"), mapOf("с" to "b", "a" to "z", "b" to "sweet")))
+        assertTrue(containsIn(mapOf("a" to "z", "с" to "b"), mapOf("с" to "b", "a" to "z", "b" to "sweet")))
     }
 
     @Test
@@ -160,6 +162,13 @@ class Tests {
     @Test
     @Tag("Normal")
     fun mergePhoneBooks() {
+        assertEquals(
+            mapOf("а" to "1"),
+            mergePhoneBooks(
+                mapOf(),
+                mapOf("а" to "1")
+            )
+        )
         assertEquals(
             mapOf("Emergency" to "112"),
             mergePhoneBooks(
@@ -235,6 +244,7 @@ class Tests {
         assertFalse(canBuildFrom(emptyList(), "foo"))
         assertTrue(canBuildFrom(listOf('a', 'b', 'o'), "baobab"))
         assertFalse(canBuildFrom(listOf('a', 'm', 'r'), "Marat"))
+        assertTrue(lesson5.task1.canBuildFrom(listOf('n'), "N"))
     }
 
     @Test
@@ -258,8 +268,15 @@ class Tests {
     @Tag("Normal")
     fun hasAnagrams() {
         assertFalse(hasAnagrams(emptyList()))
+        assertFalse(hasAnagrams(listOf("кромка", "морока")))
         assertTrue(hasAnagrams(listOf("рот", "свет", "тор")))
         assertFalse(hasAnagrams(listOf("рот", "свет", "код", "дверь")))
+        assertTrue(hasAnagrams(listOf("рот", "стол", "свет", "слот", "кот")))
+        assertFalse(hasAnagrams(listOf("рот", "свет", "слот", "тол")))
+        assertTrue(hasAnagrams(listOf("рот", "свет", "слот", "рот")))
+        assertFalse(hasAnagrams(listOf("мот", "стол", "свет", "отморозок", "кот")))
+        assertFalse(hasAnagrams(listOf("тор", "торг")))
+        assertFalse(hasAnagrams(listOf("кромка", "морока")))
     }
 
     @Test
