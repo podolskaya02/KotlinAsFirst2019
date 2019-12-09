@@ -247,8 +247,10 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
  */
 fun hasAnagrams(words: List<String>): Boolean {
     for (i in 0 until words.size - 1) {
+        val firstWord = words[i].toList().sorted()
         for (j in i + 1 until words.size) {
-            if (words[i].toList().sorted() == words[j].toList().sorted()) return true
+            val secondWord = words[j].toList().sorted()
+            if (firstWord == secondWord) return true
         }
     }
     return false
