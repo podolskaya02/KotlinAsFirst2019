@@ -72,25 +72,30 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    val consonant = "Ж ж Ч ч Ш ш Щ щ"
-    val writeLetters = "И и А а У у"
-    val wrongLetters = "Ы ы Я я Ю ю"
-    val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        var newLine = line
-        for (i in 0 until line.length - 1) {
-            if (line[i] in consonant && line[i].toString() != " " &&
-                line[i + 1] in wrongLetters && line[i + 1].toString() != " "
-            ) {
-                val index = wrongLetters.indexOf(line[i + 1])
-                newLine = line.replace(line[i + 1], writeLetters[index])
-                // не могу понять, почему замена происходит не совсем корректно ("некоторый "заменяется на "некоторий")
+    val consonant = setOf("Ж", "ж", "Ч", "ч", "Ш", "ш", "Щ", "щ")
+    val letters = mapOf(
+        "Ы" to "И",
+        "ы" to "и",
+        "Я" to "А",
+        "я" to "а",
+        "Ю" to "У",
+        "ю" to "у"
+    )
+    var forCheck = " "
+    File(outputName).bufferedWriter().use { writer ->
+        for (line in File(inputName).readLines()) {
+            for (eachLetter in line) {
+                if (letters.containsKey(eachLetter.toString()) && (consonant.any { it == forCheck })) {
+                    val newLetter = letters.getValue(eachLetter.toString())
+                    writer.write(newLetter)
+                } else {
+                    writer.write(eachLetter.toString())
+                    forCheck = eachLetter.toString()
+                }
             }
+            writer.newLine()
         }
-        writer.write(newLine)
-        writer.newLine()
     }
-    writer.close()
 }
 
 /**
@@ -112,18 +117,21 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     var lenght = 0
+    val listOfLines = mutableListOf<String>()
     File(outputName).bufferedWriter().use {
         for (line in File(inputName).readLines()) {
-            if (line.trim().length > lenght) lenght = line.trim().length
+            val newLine = line.trim()
+            if (newLine.length > lenght) lenght = newLine.length
+            listOfLines.add(newLine)
         }
-        for (line in File(inputName).readLines()) {
-            var newLines = line.trim()
-            if (newLines.trim().length < lenght) {
-                for (i in 0 until (lenght - newLines.length) / 2) {
-                    newLines = " $newLines"
+        for (newLine in listOfLines) {
+            var resultLines = newLine
+            if (resultLines.length < lenght) {
+                repeat(((lenght - resultLines.length) / 2)) {
+                    resultLines = " $resultLines"
                 }
             }
-            it.write(newLines)
+            it.write(resultLines)
             it.newLine()
         }
     }
