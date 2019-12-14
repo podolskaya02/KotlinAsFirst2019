@@ -205,22 +205,18 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val resultList = mutableListOf<Int>()
+    val res = mutableListOf<Int>()
     var number = n
-    if (n == 2 || n == 3) return listOf(n)
-    for (i in 2..sqrt(number.toDouble()).toInt()) {
-        // я перебираю множители не до корня из исходного числа, а до корня из number, который постепенно уменьшается
-        while (number % i == 0) {
-            number /= i
-            resultList.add(i)
-            if (number == i) {
-                resultList.add(i)
-                return resultList
-            }
+    var count = 1
+    while (number != 1) {
+        count += 1
+        while (number % count == 0) {
+            res.add(count)
+            number /= count
         }
     }
-    if (number > 1) (resultList.add(number))
-    return resultList
+
+    return res
 }
 
 /**
