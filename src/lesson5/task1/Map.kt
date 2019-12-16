@@ -246,11 +246,10 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    for (i in 0 until words.size - 1) {
-        val firstWord = words[i].toList().sorted()
-        for (j in i + 1 until words.size) {
-            val secondWord = words[j].toList().sorted()
-            if (firstWord == secondWord) return true
+    val newWords = words.map { it.toList().sorted() }
+    for (i in 0 until newWords.size - 1) {
+        for (j in i + 1 until newWords.size) {
+            if (newWords[i] == newWords[j]) return true
         }
     }
     return false
@@ -304,7 +303,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     for ((ourIndex, digit) in list.withIndex()) {
         val firstIndex = res[number - digit]
         if (firstIndex != null) return firstIndex to ourIndex
-        if (res[digit] !in res) res[digit] = ourIndex
+        if (digit !in res) res[digit] = ourIndex
     }
     return -1 to -1
 }
