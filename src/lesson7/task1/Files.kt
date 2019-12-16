@@ -84,8 +84,9 @@ fun sibilants(inputName: String, outputName: String) {
     var forCheck = ' '
     File(outputName).bufferedWriter().use { writer ->
         for (line in File(inputName).readLines()) {
+            forCheck = ' '
             for (eachLetter in line) {
-                forCheck = if (letters.containsKey(eachLetter) && (consonant.any { it == forCheck })) {
+                forCheck = if (letters.containsKey(eachLetter) && (forCheck in consonant)) {
                     val newLetter = letters.getValue(eachLetter)
                     writer.write(newLetter.toString())
                     newLetter
@@ -93,7 +94,6 @@ fun sibilants(inputName: String, outputName: String) {
                     writer.write(eachLetter.toString())
                     eachLetter
                 }
-                if (line.lastIndex == line.indexOf(eachLetter)) forCheck = ' '
             }
             writer.newLine()
         }
