@@ -127,13 +127,10 @@ fun centerFile(inputName: String, outputName: String) {
             listOfLines.add(newLine)
         }
         for (newLine in listOfLines) {
-            var resultLines = newLine
-            if (resultLines.length < lenght) {
-                repeat(((lenght - resultLines.length) / 2)) {
-                    resultLines = " $resultLines"
-                }
+            if (newLine.length < lenght) {
+                it.write(" ".repeat((lenght - newLine.length) / 2))
             }
-            it.write(resultLines)
+            it.write(newLine)
             it.newLine()
         }
     }
