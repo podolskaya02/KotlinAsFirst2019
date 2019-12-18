@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.sqrt
 import kotlin.math.pow
 
@@ -208,14 +209,14 @@ fun factorize(n: Int): List<Int> {
     val res = mutableListOf<Int>()
     var number = n
     var count = 1
-    while (number != 1) {
+    while (count < sqrt(number.toDouble()).toInt()) {
         count += 1
         while (number % count == 0) {
             res.add(count)
             number /= count
         }
     }
-
+    if (number > count) res.add(number)
     return res
 }
 
