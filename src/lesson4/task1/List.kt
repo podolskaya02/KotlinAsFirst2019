@@ -209,11 +209,13 @@ fun factorize(n: Int): List<Int> {
     val res = mutableListOf<Int>()
     var number = n
     var count = 1
-    while (count < sqrt(number.toDouble()).toInt()) {
+    var sqrt = sqrt(number.toDouble()).toInt()
+    while (count < sqrt) {
         count += 1
         while (number % count == 0) {
             res.add(count)
             number /= count
+            sqrt = sqrt(number.toDouble()).toInt()
         }
     }
     if (number > count) res.add(number)
